@@ -1,11 +1,13 @@
 export interface Book {
-    id: number;
-    title: string;
-    author: string;
-    rate: number;
-    image: string;
-  }
-  
-  export interface State {
-    books: Book[];
-  }
+  id: string;
+  title: string;
+  author: string;
+  rate: number;
+  image: string;
+}
+
+export interface State {
+  books: Book[];
+  loading: boolean;
+  error: string | null;
+}
