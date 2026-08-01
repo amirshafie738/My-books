@@ -1,24 +1,35 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { bookSchema, type BookFormData } from "../validation/bookSchema";
-import Input from "./Input";
 
-function BookForm() {
+import Input from "./Input";
+import type { Dispatch } from "react";
+import type { Action } from "../reducer/actions";
+import { bookSchema, type BookFormData } from "../validation/bookSchema";
+interface Props {
+  dispatch: Dispatch<Action>;
+}
+
+function BookForm({ dispatch }: Props) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<BookFormData>({
+  } = useForm({
     resolver: zodResolver(bookSchema),
   });
-
   const submitHandler = (data: BookFormData) => {
-    console.log(data);
+
+    dispatch({
+      type: "ADD_BOOK",
+      payload: {
+        id: Date.now(),
+        ...data,
+      },
+    });
 
     reset();
   };
-
   return (
     <form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
       <h2 className="text-2xl font-bold">Add New Book</h2>
@@ -41,7 +52,9 @@ function BookForm() {
         type="number"
         label="Rate"
         placeholder="1-5"
-        {...register("rate")}
+        {...register("rate", {
+          valueAsNumber: true,
+        })}
         error={errors.rate?.message}
       />
 
