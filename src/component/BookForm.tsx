@@ -23,7 +23,7 @@ function BookForm({ dispatch }: Props) {
     dispatch({
       type: "ADD_BOOK",
       payload: {
-        id: Date.now(),
+        id: Date.now().toString(),
         ...data,
       },
     });
