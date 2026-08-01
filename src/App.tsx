@@ -1,7 +1,12 @@
+import { useReducer } from "react";
 import BookForm from "./component/BookForm";
 import Header from "./component/Header";
+import { reducer } from "./reducer/reducer";
+import { initialState } from "./reducer/initialstate";
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Header />
