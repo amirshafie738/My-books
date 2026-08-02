@@ -13,11 +13,12 @@ function App() {
 
   useEffect(() => {
     const fetchBooks = async () => {
+      dispatch({ type: "FETCH_START" });
       try {
         const books = await getBooks();
         dispatch({ type: "GET_BOOKS", payload: books });
       } catch (error) {
-        console.log(error);
+        dispatch({ type: "FETCH_ERROR", payload: "Failed to load books!" });
       }
     };
 
@@ -41,11 +42,7 @@ function App() {
           <div className="bg-white rounded-xl shadow p-6 lg:col-span-2">
             <h2 className="text-2xl font-bold mb-6">Books</h2>
 
-            <BookList
-              books={state.books}
-              dispatch={dispatch}
-              onEdit={setSelectedBook}
-            />
+            <BookList state={state} dispatch={dispatch} onEdit={setSelectedBook} />
           </div>
         </div>
       </main>
