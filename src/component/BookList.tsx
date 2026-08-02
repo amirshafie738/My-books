@@ -1,25 +1,31 @@
-import type { Book } from "../types/book";
 import type { Dispatch } from "react";
+import type { Book, State } from "../types/book";
 import type { Action } from "../reducer/actions";
 import { deleteBook } from "../api/bookApis";
+import Loader from "./Loader";
+import ErrorMessage from "./ErrorMessage";
 
 interface Props {
-  books: Book[];
+  state: State;
   dispatch: Dispatch<Action>;
   onEdit: (book: Book) => void;
 }
 
-function BookList({ books, dispatch, onEdit }: Props) {
+function BookList({ state, dispatch, onEdit }: Props) {
   const handleDelete = async (id: string) => {
+    dispatch({ type: "FETCH_START" });
     try {
       await deleteBook(id);
       dispatch({ type: "DELETE_BOOK", payload: id });
     } catch (error) {
-      console.log(error);
+      dispatch({ type: "FETCH_ERROR", payload: "Failed to delete book!" });
     }
   };
 
-  if (books.length === 0) {
+  if (state.loading) return <Loader />;
+  if (state.error) return <ErrorMessage message={state.error} />;
+
+  if (state.books.length === 0) {
     return (
       <div className="h-[500px] flex items-center justify-center border-2 border-dashed rounded-lg">
         <p className="text-slate-400">No books found.</p>
@@ -29,7 +35,7 @@ function BookList({ books, dispatch, onEdit }: Props) {
 
   return (
     <div className="space-y-4">
-      {books.map((book) => (
+      {state.books.map((book) => (
         <div key={book.id} className="border rounded-lg p-4 shadow-sm">
           <h3 className="text-xl font-semibold">{book.title}</h3>
           <p className="text-slate-600">Author: {book.author}</p>
