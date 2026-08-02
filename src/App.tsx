@@ -38,7 +38,7 @@ function App() {
           <div className="bg-white rounded-xl shadow p-6 lg:col-span-2">
             <h2 className="text-2xl font-bold mb-6">Books</h2>
 
-            <BookList books={state.books} />
+            <BookList books={state.books} dispatch={dispatch} />
           </div>
         </div>
       </main>
