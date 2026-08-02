@@ -6,9 +6,10 @@ import { deleteBook } from "../api/bookApis";
 interface Props {
   books: Book[];
   dispatch: Dispatch<Action>;
+  onEdit: (book: Book) => void;
 }
 
-function BookList({ books, dispatch }: Props) {
+function BookList({ books, dispatch, onEdit }: Props) {
   const handleDelete = async (id: string) => {
     try {
       await deleteBook(id);
@@ -40,12 +41,20 @@ function BookList({ books, dispatch }: Props) {
             className="mt-3 h-48 object-cover rounded"
           />
 
-          <button
-            onClick={() => handleDelete(book.id)}
-            className="mt-3 rounded-lg border border-red-400 px-4 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50"
-          >
-            Delete
-          </button>
+          <div className="mt-3 flex gap-2">
+            <button
+              onClick={() => onEdit(book)}
+              className="rounded-lg border border-indigo-500 px-4 py-2 text-sm font-medium text-indigo-600 transition hover:bg-indigo-50"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(book.id)}
+              className="rounded-lg border border-red-400 px-4 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>
