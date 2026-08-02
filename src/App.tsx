@@ -1,12 +1,29 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import BookForm from "./component/BookForm";
 import Header from "./component/Header";
 import { reducer } from "./reducer/reducer";
 import { initialState } from "./reducer/initialstate";
 import BookList from "./component/BookList";
+import { getBooks } from "./api/bookApis";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const books = await getBooks();
+  
+        dispatch({
+          type: "GET_BOOKS",
+          payload: books,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchBooks();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-100">

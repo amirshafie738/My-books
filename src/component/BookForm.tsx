@@ -5,6 +5,7 @@ import Input from "./Input";
 import type { Dispatch } from "react";
 import type { Action } from "../reducer/actions";
 import { bookSchema, type BookFormData } from "../validation/bookSchema";
+import { addBook, getBooks } from "../api/bookApis";
 interface Props {
   dispatch: Dispatch<Action>;
 }
@@ -18,17 +19,21 @@ function BookForm({ dispatch }: Props) {
   } = useForm({
     resolver: zodResolver(bookSchema),
   });
-  const submitHandler = (data: BookFormData) => {
-
-    dispatch({
-      type: "ADD_BOOK",
-      payload: {
-        id: Date.now().toString(),
-        ...data,
-      },
-    });
-
-    reset();
+  const submitHandler = async (data: BookFormData) => {
+    try {
+      await addBook(data);
+  
+      const books = await getBooks();
+  
+      dispatch({
+        type: "GET_BOOKS",
+        payload: books,
+      });
+  
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
