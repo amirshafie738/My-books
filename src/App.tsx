@@ -29,21 +29,18 @@ function App() {
     <div className="min-h-screen bg-slate-100">
       <Header />
 
-      <main className="max-w-7xl mx-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow p-6">
-            <BookForm
-              dispatch={dispatch}
-              selectedBook={selectedBook}
-              setSelectedBook={setSelectedBook}
-            />
-          </div>
+      <main className="max-w-6xl mx-auto p-6 space-y-8">
+        <div className="bg-white rounded-xl shadow p-6">
+          <BookForm
+            dispatch={dispatch}
+            selectedBook={selectedBook}
+            setSelectedBook={setSelectedBook}
+          />
+        </div>
 
-          <div className="bg-white rounded-xl shadow p-6 lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-6">Books</h2>
-
-            <BookList state={state} dispatch={dispatch} onEdit={setSelectedBook} />
-          </div>
+        <div>
+          <h2 className="text-2xl font-bold mb-6 text-slate-800">My Books</h2>
+          <BookList state={state} dispatch={dispatch} onEdit={setSelectedBook} />
         </div>
       </main>
     </div>

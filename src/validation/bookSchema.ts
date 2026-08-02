@@ -12,9 +12,4 @@ export const bookSchema = z.object({
   image: z.string().url("Enter a valid image url"),
 });
 
-export type BookFormData = {
-  title: string;
-  author: string;
-  rate: number;
-  image: string;
-};
+export type BookFormData = z.infer<typeof bookSchema>;

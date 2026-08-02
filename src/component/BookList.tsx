@@ -2,6 +2,7 @@ import type { Dispatch } from "react";
 import type { Book, State } from "../types/book";
 import type { Action } from "../reducer/actions";
 import { deleteBook } from "../api/bookApis";
+import BookCard from "./BookCard";
 import Loader from "./Loader";
 import ErrorMessage from "./ErrorMessage";
 
@@ -34,34 +35,9 @@ function BookList({ state, dispatch, onEdit }: Props) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {state.books.map((book) => (
-        <div key={book.id} className="border rounded-lg p-4 shadow-sm">
-          <h3 className="text-xl font-semibold">{book.title}</h3>
-          <p className="text-slate-600">Author: {book.author}</p>
-          <p className="text-yellow-500">⭐ {book.rate}</p>
-
-          <img
-            src={book.image}
-            alt={book.title}
-            className="mt-3 h-48 object-cover rounded"
-          />
-
-          <div className="mt-3 flex gap-2">
-            <button
-              onClick={() => onEdit(book)}
-              className="rounded-lg border border-indigo-500 px-4 py-2 text-sm font-medium text-indigo-600 transition hover:bg-indigo-50"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => handleDelete(book.id)}
-              className="rounded-lg border border-red-400 px-4 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
+        <BookCard key={book.id} book={book} onEdit={onEdit} onDelete={handleDelete} />
       ))}
     </div>
   );
